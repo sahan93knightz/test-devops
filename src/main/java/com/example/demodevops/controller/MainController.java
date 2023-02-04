@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @RestController
 public class MainController {
@@ -14,8 +15,8 @@ public class MainController {
     private int serverPort;
 
     @GetMapping("/")
-    public ResponseEntity<String> getHello() {
-        final String hostname = InetAddress.getLoopbackAddress().getHostName();
+    public ResponseEntity<String> getHello() throws UnknownHostException {
+        final String hostname = InetAddress.getLocalHost().getHostName();
 
         return ResponseEntity.ok("Hello from " + hostname + ":" + serverPort);
     }
