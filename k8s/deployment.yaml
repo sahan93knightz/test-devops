@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: devops
   name: devops
@@ -13,33 +12,10 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: devops
     spec:
       containers:
-      - image: sahan/devops:3
+      - image: sahan93/test-devops:2
         name: devops
         resources: {}
-status: {}
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    app: devops
-  name: devops
-spec:
-  ports:
-    - name: 8080-8080
-      port: 8080
-      protocol: TCP
-      targetPort: 8080
-  selector:
-    app: devops
-  type: ClusterIP
-status:
-  loadBalancer: {}
