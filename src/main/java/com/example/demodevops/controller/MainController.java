@@ -15,7 +15,7 @@ public class MainController {
 
     @GetMapping("/")
     public ResponseEntity<String> getHello() {
-        final String hostname = InetAddress.getLoopbackAddress().getHostAddress();
+        final String hostname = InetAddress.getLoopbackAddress().getHostName();
 
         return ResponseEntity.ok("Hello from " + hostname + ":" + serverPort);
     }
