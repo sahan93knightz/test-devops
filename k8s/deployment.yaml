@@ -16,6 +16,6 @@ spec:
         app: devops
     spec:
       containers:
-      - image: sahan93/test-devops:2
+      - image: sahan93/test-devops:3
         name: devops
         resources: {}
