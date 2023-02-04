@@ -1,5 +1,6 @@
 package com.example.demodevops.controller;
 
+import com.example.demodevops.dto.Greeting;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,18 @@ public class MainController {
     @Value("${server.port}")
     private int serverPort;
 
+    @Value("${CONFIG_MAP_VALUE}")
+    private String configMapValue;
+
     @GetMapping("/")
-    public ResponseEntity<String> getHello() throws UnknownHostException {
+    public ResponseEntity<Greeting> getHello() throws UnknownHostException {
         final String hostname = InetAddress.getLocalHost().getHostName();
 
-        return ResponseEntity.ok("Hello from " + hostname + ":" + serverPort);
+        return ResponseEntity.ok(Greeting.builder()
+                .message("Hello!")
+                .port(serverPort)
+                .hostname(hostname)
+                .valueFromConfigMap(configMapValue)
+                .build());
     }
 }

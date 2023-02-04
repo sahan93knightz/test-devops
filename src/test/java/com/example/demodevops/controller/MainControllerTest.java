@@ -1,5 +1,7 @@
 package com.example.demodevops.controller;
 
+import com.example.demodevops.dto.Greeting;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,10 +9,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MainControllerTest {
 
     @Autowired
@@ -18,6 +21,11 @@ class MainControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @BeforeAll
+    public static void init() {
+        System.setProperty("CONFIG_MAP_VALUE", "MY_VALUE");
+    }
 
     @Test
     void mainControllerIsNotNull() {
@@ -27,8 +35,17 @@ class MainControllerTest {
     @Test
     void getHelloShouldReturnGreetingHostNameAndPort() throws UnknownHostException {
         final String hostname = InetAddress.getLocalHost().getHostName();
-        assertThat(restTemplate.getForObject("http://localhost:8080",
-                String.class))
-                .isEqualTo("Hello from " + hostname + ":8080");
+
+        Consumer<Greeting> hostnameAssertion = greeting -> assertThat(greeting.getHostname()).isEqualTo(hostname);
+        Consumer<Greeting> portAssertion = greeting -> assertThat(greeting.getPort()).isEqualTo(8080);
+        Consumer<Greeting> messageAssertion = greeting -> assertThat(greeting.getMessage()).isEqualTo("Hello!");
+        Consumer<Greeting> configMapValueAssertion = greeting -> assertThat(greeting.getValueFromConfigMap()).isEqualTo("MY_VALUE");
+
+        assertThat(restTemplate.getForObject("http://localhost:8080", Greeting.class))
+                .satisfies(
+                        hostnameAssertion,
+                        portAssertion,
+                        messageAssertion,
+                        configMapValueAssertion);
     }
 }
