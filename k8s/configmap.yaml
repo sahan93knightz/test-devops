@@ -4,3 +4,25 @@ metadata:
   name: test-devops
 data:
   my_config_map_key: "This value comes from Kubernetes ConfigMap"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash
+data:
+  logstash_config: |
+    input {
+      tcp {
+        port => 5000
+        codec => json
+      }
+    }
+    
+    output {
+      elasticsearch {
+        hosts => [""]
+        index => "micro-%{app}"
+      }
+    }

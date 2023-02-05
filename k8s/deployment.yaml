@@ -9,19 +9,31 @@ spec:
   selector:
     matchLabels:
       app: devops
-  strategy: {}
+  strategy: { }
   template:
     metadata:
       labels:
         app: devops
     spec:
       containers:
-      - image: sahan93/test-devops:4
-        name: devops
-        resources: {}
-        env:
-          - name: CONFIG_MAP_VALUE
-            valueFrom:
-              configMapKeyRef:
-                key: my_config_map_key
-                name: test-devops
+        - image: sahan93/test-devops:5
+          name: devops
+          resources: { }
+          env:
+            - name: CONFIG_MAP_VALUE
+              valueFrom:
+                configMapKeyRef:
+                  key: my_config_map_key
+                  name: test-devops
+        - image: logstash/logstash:8.6.1
+          name: logstash
+          ports:
+            - containerPort: 5044
+          volumeMounts:
+            - mountPath: /usr/share/logstash/pipeline
+              name: logstash-config
+          resources: { }
+      volumes:
+        - name: logstash-config
+          configMap:
+            name: logstash

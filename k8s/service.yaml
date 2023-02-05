@@ -10,6 +10,10 @@ spec:
       port: 8080
       protocol: TCP
       targetPort: 8080
+    - name: 5044-5044
+      port: 5044
+      protocol: TCP
+      targetPort: 5044
   selector:
     app: devops
   type: ClusterIP
