@@ -1,0 +1,6 @@
+#!/bin/sh
+
+docker build -t sahan93/test-devops:$1 .
+docker tag sahan93/test-devops:$1 sahan93/test-devops:latest
+docker push sahan93/test-devops:$1
+docker push sahan93/test-devops:latest

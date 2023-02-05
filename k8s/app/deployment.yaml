@@ -9,19 +9,34 @@ spec:
   selector:
     matchLabels:
       app: devops
-  strategy: {}
+  strategy: { }
   template:
     metadata:
       labels:
         app: devops
     spec:
       containers:
-      - image: sahan93/test-devops:4
-        name: devops
-        resources: {}
-        env:
-          - name: CONFIG_MAP_VALUE
-            valueFrom:
-              configMapKeyRef:
-                key: my_config_map_key
-                name: test-devops
+        - image: sahan93/test-devops:latest
+          name: devops
+          resources: { }
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: db_url
+                  name: test-devops
+            - name: DATABASE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: db_username
+                  name: test-devops
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: db_password
+                  name: test-devops
+            - name: CONFIG_MAP_VALUE
+              valueFrom:
+                configMapKeyRef:
+                  key: my_config_map_key
+                  name: test-devops

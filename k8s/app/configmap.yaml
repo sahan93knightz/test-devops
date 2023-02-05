@@ -4,3 +4,6 @@ metadata:
   name: test-devops
 data:
   my_config_map_key: "This value comes from Kubernetes ConfigMap"
+  db_url: "jdbc:mysql://mysql:3306/devops_test"
+  db_username: "root"
+  db_password: "password"
