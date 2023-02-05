@@ -17,6 +17,7 @@ spec:
     spec:
       containers:
         - image: sahan93/test-devops:latest
+          imagePullPolicy: Always
           name: devops
           resources: { }
           env:
