@@ -25,7 +25,7 @@ spec:
                 configMapKeyRef:
                   key: my_config_map_key
                   name: test-devops
-        - image: logstash/logstash:8.6.1
+        - image: docker.elastic.co/logstash/logstash:8.6.1
           name: logstash
           ports:
             - containerPort: 5044
