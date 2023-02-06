@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.2'
     id 'io.spring.dependency-management' version '1.1.0'
     id "io.freefair.lombok" version "6.6.1"
+    id 'org.liquibase.gradle' version '2.1.1'
 }
 
 group = 'com.example'
@@ -18,12 +19,41 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'mysql:mysql-connector-java'
+    implementation 'org.liquibase:liquibase-core'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
+
+    liquibaseRuntime 'org.liquibase:liquibase-core:4.19.0'
+    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
+    liquibaseRuntime 'mysql:mysql-connector-java:8.0.30'
+    liquibaseRuntime 'info.picocli:picocli:4.6.1'
+    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:4.19.0")
+    liquibaseRuntime(sourceSets.getByName("main").compileClasspath)
+    liquibaseRuntime(sourceSets.getByName("main").runtimeClasspath)
+    liquibaseRuntime(sourceSets.getByName("main").output)
+}
+
+apply plugin: "org.liquibase.gradle"
+
+liquibase {
+//    activities {
+//        main {
+//            changelogFile 'src/main/resources/db/changelog/db.changelog-master.xml'
+//            url 'jdbc:mysql://localhost:3306/devops_test'
+//            username 'root'
+//            password 'password'
+//            referenceUrl 'hibernate:spring:com.example.demodevops.model?dialect=org.hibernate.dialect.MySQLDialect'
+//            driver 'com.mysql.cj.jdbc.Driver'
+//        }
+//    }
+
+    activities.register("main")
+    runList = "main"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
