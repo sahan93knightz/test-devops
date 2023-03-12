@@ -16,7 +16,7 @@ spec:
         app: devops
     spec:
       containers:
-        - image: sahan93/test-devops:8
+        - image: sahan93/test-devops:9
           imagePullPolicy: Always
           name: devops
           resources: { }
